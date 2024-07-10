@@ -63,8 +63,10 @@ struct ContentView: View {
                             .navigationDestination(for: Int.self) { i in
                                 DetailView(number: i)
                                     .toolbar {
-                                        Button("Home") {
-                                            pathStore.path = NavigationPath()
+                                        ToolbarItem(placement: .topBarTrailing) {
+                                            Button("Home") {
+                                                pathStore.path = NavigationPath()
+                                            }
                                         }
                                     }
                             }
@@ -78,12 +80,15 @@ struct ContentView: View {
 struct DetailView: View {
     
    
-
+    
     var number: Int
+    @State private var title: String = "SwiftUI"
     var body: some View {
         VStack {
             NavigationLink("Go to random number", value: Int.random(in: 0...1000))
-                .navigationTitle("Number: \(number)")
+                .navigationTitle($title)
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbarBackground(.blue)
                 
                 
         }
