@@ -21,45 +21,29 @@ struct ContentView: View {
         VStack {
             
             NavigationStack(path: $path) {
-                List(0..<4) { i in
-                    NavigationLink("Tap Me \(i)", value: i)
-                }
-                List(0..<4) { i in
-                    NavigationLink("String \(i)", value: String(i))
-                }
-                .navigationDestination(for: Int.self) { selection in
-                    DetailView(number: selection)
-                }
-                .navigationDestination(for: String.self) { selection in
-                    Text("String \(selection)")
-                }
-                .toolbar {
-                    Button("show 666") {
-                        path.append(666)
+                DetailView(number: 0, path: $path)
+                    .navigationDestination(for: Int.self) { i in
+                        DetailView(number: i, path: $path)
                     }
-                    
-                    Button("show String") {
-                        path.append("String")
-                    }
-                }
-            
             }
         }
-        
     }
 }
 
 struct DetailView: View {
     var number: Int
-    
+    @Binding var path: NavigationPath
     var body: some View {
-        Text("Detail View \(number)")
+        NavigationLink("Go to random number", value: Int.random(in: 0...1000))
+            .navigationTitle("Number: \(number)")
+            .toolbar {
+                Button("Home") {
+                    path = NavigationPath()
+                }
+            }
     }
-    
-    init(number: Int) {
-        self.number = number
-        print("Creating detail view \(number)")
-    }
+      
+ 
 }
 
 #Preview {
