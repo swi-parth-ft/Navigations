@@ -7,15 +7,25 @@
 
 import SwiftUI
 
+struct Student: Hashable {
+    var id = UUID()
+    var name: String
+    var age: Int
+}
+
 struct ContentView: View {
     var body: some View {
         VStack {
             
             NavigationStack {
                 List(0..<1000) { i in
-                    NavigationLink("Tap Me") {
-                        DetailView(number: i)
-                    }
+                    NavigationLink("Tap Me \(i)", value: i)
+                }
+                .navigationDestination(for: Int.self) { selection in
+                    DetailView(number: selection)
+                }
+                .navigationDestination(for: Student.self) { selection in
+                    Text("Student Detail \(selection)")
                 }
             
             }
