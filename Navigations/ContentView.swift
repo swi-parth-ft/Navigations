@@ -14,23 +14,38 @@ struct Student: Hashable {
 }
 
 struct ContentView: View {
+    
+    @State private var path = NavigationPath()
+    
     var body: some View {
         VStack {
             
-            NavigationStack {
-                List(0..<1000) { i in
+            NavigationStack(path: $path) {
+                List(0..<4) { i in
                     NavigationLink("Tap Me \(i)", value: i)
+                }
+                List(0..<4) { i in
+                    NavigationLink("String \(i)", value: String(i))
                 }
                 .navigationDestination(for: Int.self) { selection in
                     DetailView(number: selection)
                 }
-                .navigationDestination(for: Student.self) { selection in
-                    Text("Student Detail \(selection)")
+                .navigationDestination(for: String.self) { selection in
+                    Text("String \(selection)")
+                }
+                .toolbar {
+                    Button("show 666") {
+                        path.append(666)
+                    }
+                    
+                    Button("show String") {
+                        path.append("String")
+                    }
                 }
             
             }
         }
-        .padding()
+        
     }
 }
 
